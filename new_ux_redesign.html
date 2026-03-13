@@ -1,0 +1,209 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:transparent}
+.shell{display:flex;height:620px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;background:var(--color-background-primary)}
+
+/* Sidebar */
+.sidebar{width:240px;background:var(--color-background-secondary);border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;flex-shrink:0}
+.sidebar-top{padding:12px 14px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:8px}
+.logo{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.badge-pro{font-size:10px;background:#EEEDFE;color:#534AB7;padding:2px 6px;border-radius:4px}
+.search-box{padding:8px 12px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.search-box input{width:100%;font-size:12px;padding:5px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)}
+.lab-list{flex:1;overflow-y:auto;padding:8px 0}
+.section-label{font-size:10px;font-weight:500;color:var(--color-text-tertiary);padding:6px 14px 3px;text-transform:uppercase;letter-spacing:.05em}
+.lab-item{padding:8px 14px;cursor:pointer;display:flex;flex-direction:column;gap:3px;border-left:2px solid transparent;transition:background .15s}
+.lab-item:hover{background:var(--color-background-primary)}
+.lab-item.active{background:var(--color-background-primary);border-left-color:#534AB7}
+.lab-title{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.lab-meta{display:flex;align-items:center;gap:6px}
+.diff{font-size:10px;padding:1px 5px;border-radius:3px}
+.diff.easy{background:#EAF3DE;color:#3B6D11}
+.diff.medium{background:#FAEEDA;color:#854F0B}
+.diff.hard{background:#FCEBEB;color:#A32D2D}
+.lab-dur{font-size:10px;color:var(--color-text-tertiary)}
+.sidebar-footer{padding:10px 14px;border-top:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:8px}
+.avatar{width:24px;height:24px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:#534AB7}
+.user-name{font-size:12px;color:var(--color-text-secondary);flex:1}
+.xp-pill{font-size:10px;background:#EAF3DE;color:#3B6D11;padding:2px 6px;border-radius:10px}
+
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{padding:10px 16px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:12px}
+.lab-name-bar{font-size:13px;font-weight:500;color:var(--color-text-primary);flex:1}
+.timer-box{display:flex;align-items:center;gap:6px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:4px 10px}
+.timer-text{font-size:12px;font-weight:500;color:var(--color-text-primary);font-variant-numeric:tabular-nums}
+.timer-label{font-size:10px;color:var(--color-text-tertiary)}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#639922}
+.btn-hint{font-size:11px;padding:4px 10px;border:0.5px solid var(--color-border-secondary);border-radius:6px;cursor:pointer;background:transparent;color:var(--color-text-secondary)}
+.btn-end{font-size:11px;padding:4px 10px;border:0.5px solid #D85A30;border-radius:6px;cursor:pointer;background:transparent;color:#D85A30}
+
+.split{flex:1;display:flex;overflow:hidden}
+
+/* Tasks pane */
+.tasks-pane{width:260px;border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;overflow:hidden}
+.tasks-header{padding:10px 14px;font-size:12px;font-weight:500;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:6px}
+.tasks-scroll{flex:1;overflow-y:auto;padding:10px}
+.task-card{border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.task-card.done{opacity:.55}
+.task-card.active-task{border-color:#534AB7}
+.task-num{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.task-text{font-size:12px;color:var(--color-text-primary);line-height:1.4}
+.check{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#EAF3DE;margin-right:6px;flex-shrink:0}
+.check svg{width:9px;height:9px}
+.task-row{display:flex;align-items:flex-start;margin-bottom:3px}
+.progress-bar{height:3px;background:var(--color-border-tertiary);border-radius:2px;margin:8px 14px 6px}
+.progress-fill{height:100%;width:33%;background:#534AB7;border-radius:2px;transition:width .4s}
+.prog-label{font-size:10px;color:var(--color-text-tertiary);padding:0 14px 8px;text-align:right}
+
+/* Terminal area */
+.terminal-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.tab-bar{display:flex;align-items:center;border-bottom:0.5px solid var(--color-border-tertiary);padding:0 12px;gap:2px}
+.tab{font-size:11px;padding:7px 12px;cursor:pointer;color:var(--color-text-tertiary);border-bottom:2px solid transparent;margin-bottom:-0.5px}
+.tab.active{color:var(--color-text-primary);border-bottom-color:#534AB7}
+.terminal{flex:1;background:#0d1117;display:flex;flex-direction:column;overflow:hidden;font-family:var(--font-mono);font-size:11.5px}
+.term-line{padding:2px 14px;line-height:1.6}
+.term-prompt{color:#57c464}
+.term-cmd{color:#e6edf3}
+.term-out{color:#8b949e}
+.term-err{color:#f97583}
+.term-suc{color:#57c464}
+.term-input-row{display:flex;align-items:center;padding:4px 14px;gap:6px;margin-top:auto;border-top:0.5px solid #21262d}
+.term-prompt-label{color:#57c464;font-size:11.5px;font-family:var(--font-mono)}
+.term-input{flex:1;background:transparent;border:none;outline:none;color:#e6edf3;font-family:var(--font-mono);font-size:11.5px}
+
+/* Objective flash */
+.obj-banner{background:#EEEDFE;padding:8px 14px;display:flex;align-items:center;gap:8px;font-size:11.5px;color:#534AB7;border-bottom:0.5px solid #CECBF6}
+.obj-icon{width:16px;height:16px;flex-shrink:0}
+</style>
+
+<div class="shell">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-top">
+      <div class="logo">KodeKloud Lab</div>
+      <span class="badge-pro">PRO</span>
+    </div>
+    <div class="search-box">
+      <input placeholder="Search labs..." />
+    </div>
+    <div class="lab-list">
+      <div class="section-label">In Progress</div>
+      <div class="lab-item active">
+        <div class="lab-title">Kubernetes Networking</div>
+        <div class="lab-meta"><span class="diff medium">Medium</span><span class="lab-dur">45 min</span></div>
+      </div>
+      <div class="section-label">Recommended</div>
+      <div class="lab-item">
+        <div class="lab-title">Docker Compose Basics</div>
+        <div class="lab-meta"><span class="diff easy">Easy</span><span class="lab-dur">20 min</span></div>
+      </div>
+      <div class="lab-item">
+        <div class="lab-title">Helm Chart Deployment</div>
+        <div class="lab-meta"><span class="diff hard">Hard</span><span class="lab-dur">60 min</span></div>
+      </div>
+      <div class="lab-item">
+        <div class="lab-title">CI/CD with GitHub Actions</div>
+        <div class="lab-meta"><span class="diff medium">Medium</span><span class="lab-dur">35 min</span></div>
+      </div>
+      <div class="lab-item">
+        <div class="lab-title">Terraform AWS VPC</div>
+        <div class="lab-meta"><span class="diff medium">Medium</span><span class="lab-dur">50 min</span></div>
+      </div>
+      <div class="lab-item">
+        <div class="lab-title">Prometheus & Grafana</div>
+        <div class="lab-meta"><span class="diff easy">Easy</span><span class="lab-dur">30 min</span></div>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="avatar">JS</div>
+      <span class="user-name">Jane Smith</span>
+      <span class="xp-pill">+120 XP</span>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Top bar -->
+    <div class="topbar">
+      <span class="lab-name-bar">Kubernetes Networking — Task 1 of 3</span>
+      <div class="timer-box">
+        <div class="status-dot"></div>
+        <div>
+          <div class="timer-text">32:47</div>
+          <div class="timer-label">remaining</div>
+        </div>
+      </div>
+      <button class="btn-hint">💡 Hint</button>
+      <button class="btn-end">End Lab</button>
+    </div>
+
+    <div class="split">
+      <!-- Tasks pane -->
+      <div class="tasks-pane">
+        <div class="tasks-header">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1"/><path d="M3.5 6l2 2 3-3" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Tasks
+        </div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="prog-label">1 of 3 complete</div>
+        <div class="tasks-scroll">
+
+          <div class="task-card done">
+            <div class="task-num">Task 1</div>
+            <div class="task-row">
+              <span class="check"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2.5 2.5 3.5-4" stroke="#3B6D11" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="task-text">Create a namespace called <code style="font-size:11px;background:var(--color-background-secondary);padding:1px 4px;border-radius:3px">dev-net</code></span>
+            </div>
+          </div>
+
+          <div class="task-card active-task">
+            <div class="task-num">Task 2 — Current</div>
+            <div class="task-row">
+              <span class="task-text">Deploy a pod named <code style="font-size:11px;background:var(--color-background-secondary);padding:1px 4px;border-radius:3px">nginx-pod</code> using image <code style="font-size:11px;background:var(--color-background-secondary);padding:1px 4px;border-radius:3px">nginx:latest</code> in the <code style="font-size:11px;background:var(--color-background-secondary);padding:1px 4px;border-radius:3px">dev-net</code> namespace</span>
+            </div>
+          </div>
+
+          <div class="task-card" style="opacity:.45">
+            <div class="task-num">Task 3</div>
+            <div class="task-row">
+              <span class="task-text">Expose the pod using a ClusterIP service on port 80</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Terminal -->
+      <div class="terminal-area">
+        <div class="tab-bar">
+          <div class="tab active">Terminal</div>
+          <div class="tab">Docs</div>
+          <div class="tab">Solution</div>
+        </div>
+        <div class="obj-banner">
+          <svg class="obj-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#534AB7"/><path d="M8 5v3.5l2 2" stroke="#534AB7" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Current objective: Deploy nginx-pod in the dev-net namespace
+        </div>
+        <div class="terminal">
+          <div class="term-line"><span class="term-prompt">user@node01:~$ </span><span class="term-cmd">kubectl get namespaces</span></div>
+          <div class="term-line"><span class="term-out">NAME              STATUS   AGE</span></div>
+          <div class="term-line"><span class="term-out">default           Active   12m</span></div>
+          <div class="term-line"><span class="term-suc">dev-net           Active   2m</span></div>
+          <div class="term-line"><span class="term-out">kube-system       Active   12m</span></div>
+          <div class="term-line" style="margin-top:6px"><span class="term-prompt">user@node01:~$ </span><span class="term-cmd">kubectl run nginx-pod --image=nginx:latest -n dev-net</span></div>
+          <div class="term-line"><span class="term-suc">pod/nginx-pod created</span></div>
+          <div class="term-line" style="margin-top:6px"><span class="term-prompt">user@node01:~$ </span><span class="term-cmd">kubectl get pods -n dev-net</span></div>
+          <div class="term-line"><span class="term-out">NAME        READY   STATUS              RESTARTS   AGE</span></div>
+          <div class="term-line"><span class="term-out">nginx-pod   0/1     ContainerCreating   0          3s</span></div>
+          <div class="term-line" style="margin-top:6px"><span class="term-prompt">user@node01:~$ </span><span class="term-cmd">_</span></div>
+          <div class="term-input-row">
+            <span class="term-prompt-label">user@node01:~$</span>
+            <input class="term-input" placeholder="Type command..." />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

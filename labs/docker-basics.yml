@@ -1,0 +1,36 @@
+lab:
+  title: Docker Fundamentals
+  description: Containerization with Docker
+  image: devops-lab:docker
+  duration_minutes: 45
+
+steps:
+  - title: Check Docker Version
+    instruction: |
+      Verify Docker is installed and running.
+      Run: docker --version
+    validation: docker --version
+
+  - title: Pull Docker Image
+    instruction: |
+      Pull the nginx Docker image.
+      Run: docker pull nginx:latest
+    validation: docker images nginx
+
+  - title: Run a Container
+    instruction: |
+      Run an nginx container in detached mode.
+      Run: docker run -d --name mynginx nginx:latest
+    validation: docker ps | grep mynginx
+
+  - title: List Running Containers
+    instruction: |
+      List all running containers.
+      Run: docker ps
+    validation: docker ps -q
+
+  - title: Stop Container
+    instruction: |
+      Stop the running nginx container.
+      Run: docker stop mynginx
+    validation: docker ps | grep -v mynginx

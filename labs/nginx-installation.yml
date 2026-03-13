@@ -1,0 +1,64 @@
+lab:
+  title: "Nginx Installation Lab"
+  description: "Verify if Nginx web server is properly installed and running"
+  image: "kodekloud-lab:base"
+  duration_minutes: 30
+
+steps:
+  - title: "Check Nginx Installation"
+    instruction: |
+      Check if the nginx package is installed on the system.
+      Run the command: dpkg -l | grep nginx
+    validation: |
+      dpkg -l | grep nginx
+
+  - title: "Verify Nginx Service Status"
+    instruction: |
+      Check if the nginx service is running.
+      Run the command: systemctl status nginx
+    validation: |
+      systemctl is-active nginx
+
+  - title: "Check Nginx Process"
+    instruction: |
+      Verify if nginx processes are running.
+      Run the command: ps aux | grep nginx
+    validation: |
+      ps aux | grep nginx | grep -v grep
+
+  - title: "Test Nginx Web Server"
+    instruction: |
+      Test if nginx is serving web content on port 80.
+      Run the command: curl http://localhost
+    validation: |
+      curl -s http://localhost | head -c 100
+
+  - title: "Check Nginx Configuration"
+    instruction: |
+      Verify nginx configuration syntax is valid.
+      Run the command: nginx -t
+    validation: |
+      nginx -t
+
+  - title: "Install Nginx"
+    instruction: |
+      Install nginx if it's not already installed.
+      Run the commands:
+      sudo apt update
+      sudo apt install -y nginx
+    validation: |
+      dpkg -l | grep nginx && systemctl is-active nginx
+
+  - title: "Enable Nginx Service"
+    instruction: |
+      Enable nginx to start automatically on boot.
+      Run the command: sudo systemctl enable nginx
+    validation: |
+      systemctl is-enabled nginx
+
+  - title: "Restart Nginx Service"
+    instruction: |
+      Restart the nginx service to apply changes.
+      Run the command: sudo systemctl restart nginx
+    validation: |
+      systemctl is-active nginx

@@ -1,0 +1,92 @@
+replicaCount: 2
+
+image:
+  repository: ghcr.io/mehedih11/kodekloud-lab/backend
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "8080"
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: false
+  allowPrivilegeEscalation: false
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: lab.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: kodekloud-lab-tls
+      hosts:
+        - lab.example.com
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+env:
+  DATABASE_URL: "postgres://postgres:password@postgresql:5432/kodekloud?sslmode=disable"
+  JWT_SECRET: "change-me-in-production"
+  KUBECONFIG: "/etc/kubernetes/admin.conf"
+
+postgresql:
+  enabled: true
+  auth:
+    username: postgres
+    password: password
+    database: kodekloud
+  primary:
+    persistence:
+      size: 1Gi
+
+redis:
+  enabled: true
+  auth:
+    password: password

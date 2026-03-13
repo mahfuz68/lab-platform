@@ -1,0 +1,37 @@
+lab:
+  title: Git Basics
+  description: Learn Git version control fundamentals
+  image: devops-lab:git
+  duration_minutes: 30
+
+steps:
+  - title: Initialize Git Repository
+    instruction: |
+      Initialize a new Git repository in the /home/user directory.
+      Run: cd /home/user && git init
+    validation: test -d /home/user/.git
+
+  - title: Configure Git User
+    instruction: |
+      Set your Git username and email.
+      Run: git config --global user.name "Your Name"
+      Run: git config --global user.email "your@email.com"
+    validation: git config --global user.name
+
+  - title: Create a File
+    instruction: |
+      Create a new file called README.md with some content.
+      Run: echo "# My Project" > /home/user/README.md
+    validation: test -f /home/user/README.md
+
+  - title: Stage the File
+    instruction: |
+      Add the README.md file to Git staging.
+      Run: git add README.md
+    validation: git diff --cached --name-only
+
+  - title: Commit the Changes
+    instruction: |
+      Commit the staged changes with a message.
+      Run: git commit -m "Initial commit"
+    validation: git log --oneline
