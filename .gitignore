@@ -1,1 +1,27 @@
 .worktrees/
+
+# Env files
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS/editor files
+.DS_Store
+.vscode/
+
+# Frontend build artifacts
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Backend build artifacts
+backend/server
+backend/*.exe
+backend/*.test
+backend/*.out
+
+# Coverage/temp
+coverage/
+.tmp/
